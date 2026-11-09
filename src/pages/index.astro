@@ -7,7 +7,15 @@ import diedrich from '../assets/weekly-random/diedrich-knickerbocker.png';
 // Weekly Random lives on porto.works. These are the latest three notes;
 // update this list when a new one is published there.
 const WR = 'https://www.porto.works/weekly-random/';
-const SUBSCRIBE = 'https://mailchi.mp/aa5df2dc44f0/weekly-random-landing';
+// Mailchimp audience "Mailers", form "Embedded Signup Form". The page
+// posts to the JSON endpoint (see the script at the bottom) so people
+// subscribe without leaving the site; without JS it falls back to a
+// regular post that opens Mailchimp's confirmation page.
+const MC_U = 'ab1263e5cfe2f1276935eb593';
+const MC_ID = 'e55d6d7870';
+const MC_FID = '00fec2e1f0';
+const MC_ACTION = `https://list-manage.us18.list-manage.com/subscribe/post?u=${MC_U}&id=${MC_ID}&f_id=${MC_FID}`;
+const MC_HONEYPOT = `b_${MC_U}_${MC_ID}`;
 
 const notas = [
   {
@@ -132,10 +140,23 @@ const description =
           </div>
           <h2 class="label">sigamos en contacto directo</h2>
           <p class="contact-sub">Recibí mi newsletter “Weekly Random”</p>
-          <a class="subscribe" href={SUBSCRIBE} target="_blank" rel="noopener">
-            <span class="subscribe-field">Email</span>
-            <span class="subscribe-button">Suscribirme</span>
-          </a>
+          <form class="subscribe" action={MC_ACTION} method="post" target="_blank" novalidate>
+            <label class="visually-hidden" for="wr-email">Tu email</label>
+            <input
+              class="subscribe-field"
+              id="wr-email"
+              type="email"
+              name="EMAIL"
+              placeholder="Email"
+              autocomplete="email"
+              required
+            />
+            <div class="honeypot" aria-hidden="true">
+              <input type="text" name={MC_HONEYPOT} tabindex="-1" value="" />
+            </div>
+            <button class="subscribe-button" type="submit">Suscribirme</button>
+          </form>
+          <p class="subscribe-msg" role="status" aria-live="polite"></p>
         </div>
       </section>
     </main>
@@ -144,6 +165,82 @@ const description =
       <span>No rights reserved.</span>
       <a href="#top">Back to top</a>
     </footer>
+
+    <script>
+      // Subscribe through Mailchimp's JSONP endpoint and show the result
+      // in place. Mailchimp answers in Spanish (audience language).
+      const form = document.querySelector<HTMLFormElement>('.subscribe');
+      const msg = document.querySelector<HTMLElement>('.subscribe-msg');
+
+      if (form && msg) {
+        const input = form.querySelector<HTMLInputElement>('input[name="EMAIL"]')!;
+        const button = form.querySelector<HTMLButtonElement>('button')!;
+
+        const show = (text: string, state: 'ok' | 'error' | 'busy') => {
+          msg.textContent = text;
+          msg.dataset.state = state;
+        };
+
+        const friendly = (raw: string) => {
+          const text = raw.replace(/<[^>]*>/g, '').replace(/^\d+\s*-\s*/, '').trim();
+          if (/ya est|already/i.test(text)) return 'Ese mail ya está suscripto. Nos leemos en la próxima.';
+          if (/demasiad|too many/i.test(text)) return 'Hubo muchos intentos con ese mail. Probá de nuevo en unos minutos.';
+          return text || 'No pudimos suscribirte. Revisá el mail y probá de nuevo.';
+        };
+
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          if (!input.value.trim() || !input.checkValidity()) {
+            show('Escribí un email válido.', 'error');
+            input.focus();
+            return;
+          }
+
+          const callback = `mc_cb_${Date.now()}`;
+          const params = new URLSearchParams(new FormData(form) as unknown as Record<string, string>);
+          params.set('c', callback);
+          const url = form.action.replace('/subscribe/post?', '/subscribe/post-json?') + '&' + params.toString();
+
+          const script = document.createElement('script');
+          const cleanup = () => {
+            delete (window as any)[callback];
+            script.remove();
+            button.disabled = false;
+          };
+          const timer = window.setTimeout(() => {
+            cleanup();
+            show('No pudimos conectarnos. Probá de nuevo en un rato.', 'error');
+          }, 12000);
+
+          (window as any)[callback] = (data: { result: string; msg: string }) => {
+            window.clearTimeout(timer);
+            cleanup();
+            if (data.result === 'success') {
+              form.reset();
+              show(
+                /confirm/i.test(data.msg)
+                  ? 'Listo. Te llega un mail para confirmar la suscripción.'
+                  : 'Listo, ya estás suscripto a Weekly Random.',
+                'ok'
+              );
+            } else {
+              show(friendly(data.msg), 'error');
+            }
+          };
+
+          button.disabled = true;
+          show('Enviando…', 'busy');
+          script.src = url;
+          script.onerror = () => {
+            window.clearTimeout(timer);
+            cleanup();
+            show('No pudimos conectarnos. Probá de nuevo en un rato.', 'error');
+          };
+          document.body.appendChild(script);
+        });
+      }
+    </script>
   </body>
 </html>
 
@@ -430,12 +527,30 @@ const description =
     max-width: 958px;
   }
 
+  /* Email and Instagram: an underline draws in from the left on hover
+     (always visible, thinner, on touch screens). */
   .contact-big {
     display: inline-block;
+    padding-bottom: 4px;
     font-family: var(--serif);
     font-size: 35px;
     line-height: 35px;
     letter-spacing: -3px;
+    background: linear-gradient(currentColor, currentColor) left bottom / 0% 1px no-repeat;
+    transition: background-size 0.45s cubic-bezier(0.22, 0.75, 0.2, 1);
+  }
+
+  @media (hover: hover) {
+    .contact-big:hover,
+    .contact-big:focus-visible {
+      background-size: 100% 1px;
+    }
+  }
+
+  @media (hover: none) {
+    .contact-big {
+      background-size: 100% 1px;
+    }
   }
 
   .contact-sub {
@@ -458,27 +573,84 @@ const description =
 
   .subscribe-field {
     flex: 1;
+    min-width: 0;
     padding: 10px 14px;
+    border: 0;
     border-bottom: 1px solid #69727d;
+    border-radius: 0;
+    background: transparent;
     font-family: var(--serif);
     font-size: 19px;
     line-height: 19px;
     letter-spacing: -0.9px;
+    color: var(--fg);
+    transition: border-color 0.25s ease;
+  }
+
+  .subscribe-field::placeholder {
     color: #69727d;
+    opacity: 1;
+  }
+
+  .subscribe-field:focus {
+    outline: none;
+    border-bottom-color: var(--fg);
   }
 
   .subscribe-button {
     padding: 10px 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
     font-family: var(--num);
     font-size: 24px;
     line-height: 24px;
     font-weight: 500;
     letter-spacing: -1.3px;
     color: #000;
+    transition: opacity 0.25s ease;
   }
 
-  .subscribe:hover .subscribe-button {
+  .subscribe-button:hover,
+  .subscribe-button:focus-visible {
     opacity: 0.6;
+  }
+
+  .subscribe-button:disabled {
+    opacity: 0.4;
+    cursor: wait;
+  }
+
+  .subscribe-msg {
+    min-height: 19px;
+    margin-top: 12px;
+    max-width: 586px;
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.4px;
+  }
+
+  .subscribe-msg[data-state='error'] {
+    color: #b3261e;
+  }
+
+  .subscribe-msg[data-state='busy'] {
+    color: #69727d;
+  }
+
+  .honeypot {
+    position: absolute;
+    left: -5000px;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
 
   /* Footer */
