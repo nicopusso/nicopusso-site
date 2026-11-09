@@ -41,7 +41,7 @@ const proyectos = [
 
 const title = 'Nico Pusso – Brand Strategist';
 const description =
-  'Consultor de branding con más de 15 años de experiencia en construcción, posicionamiento y comunicación de marca.';
+  'Consultor de branding con más de 16 años de experiencia en construcción, posicionamiento y comunicación de marca.';
 ---
 
 <!doctype html>
@@ -76,10 +76,10 @@ const description =
 
     <main>
       <p class="hero">
-        Soy consultor de branding con más de 15 años de experiencia acompañando procesos de construcción,
-        posicionamiento y comunicación de marca. En 2023, co-fundé Timewalls, una galería de fotos
-        centrada en storytelling y recientemente Porto Works, un brand hub centrado en estrategia y
-        branding donde colaboramos junto a otros estudios y profesionales.
+        Soy consultor de branding con más de 16 años de experiencia acompañando procesos de construcción,
+        posicionamiento y comunicación de marca. Co-fundé Timewalls, una galería de fotos centrada en
+        storytelling, y Porto Works, una consultora de estrategia y branding donde colaboramos junto a
+        otros estudios y profesionales.
       </p>
 
       <section class="section">
@@ -89,7 +89,12 @@ const description =
             proyectos.map((p, i) => (
               <li>
                 <span class="num">{String(i + 1).padStart(2, '0')}</span>
-                <a href={p.href}>{p.name}</a>
+                <a href={p.href}>
+                  <span class="name">{p.name}</span>
+                  <svg class="arrow" viewBox="0 0 40 40" aria-hidden="true">
+                    <path d="M9 31 31 9M13 9h18v18" fill="none" stroke="currentColor" stroke-width="2" />
+                  </svg>
+                </a>
               </li>
             ))
           }
@@ -266,17 +271,94 @@ const description =
     letter-spacing: -5px;
   }
 
+  /* The whole row is the link. On hover the name slides right and an
+     arrow comes in at the end of the row; on touch screens the arrow is
+     always visible so the rows still read as links. */
   .proyectos a {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
     font-family: var(--serif);
     font-size: 70px;
     line-height: 65px;
     letter-spacing: -5px;
     text-transform: uppercase;
-    transition: opacity 0.25s ease;
+    --ease: cubic-bezier(0.22, 0.75, 0.2, 1);
   }
 
-  .proyectos a:hover {
-    opacity: 0.5;
+  .name {
+    display: inline-block;
+    transition: transform 0.5s var(--ease);
+  }
+
+  .arrow {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 8px;
+    opacity: 0;
+    transform: translate(-18px, 18px);
+    transition:
+      opacity 0.35s ease,
+      transform 0.5s var(--ease);
+  }
+
+  .proyectos li::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: var(--fg);
+    transform: scaleY(1);
+    transform-origin: bottom;
+    transition: transform 0.35s ease;
+  }
+
+  @media (hover: hover) {
+    .proyectos a:hover .name,
+    .proyectos a:focus-visible .name {
+      transform: translateX(18px);
+    }
+
+    .proyectos a:hover .arrow,
+    .proyectos a:focus-visible .arrow {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+
+    .proyectos li:hover::after,
+    .proyectos li:focus-within::after {
+      transform: scaleY(3);
+    }
+  }
+
+  @media (hover: none) {
+    .arrow {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .name,
+    .arrow,
+    .proyectos li::after {
+      transition: opacity 0.2s ease;
+    }
+
+    .proyectos a:hover .name,
+    .proyectos a:focus-visible .name {
+      transform: none;
+    }
+
+    .proyectos a:hover .arrow,
+    .proyectos a:focus-visible .arrow {
+      transform: none;
+    }
   }
 
   /* Weekly Random cards */
@@ -471,6 +553,16 @@ const description =
 
     .proyectos a {
       font-size: 45px;
+    }
+
+    .proyectos a {
+      gap: 6px;
+    }
+
+    .arrow {
+      width: 22px;
+      height: 22px;
+      margin-bottom: 14px;
     }
 
     .cards {
