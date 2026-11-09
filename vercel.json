@@ -1,0 +1,170 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/newsletter",
+      "destination": "https://www.porto.works/weekly-random/",
+      "permanent": true
+    },
+    {
+      "source": "/newsletter/",
+      "destination": "https://www.porto.works/weekly-random/",
+      "permanent": true
+    },
+    {
+      "source": "/qu",
+      "destination": "https://www.porto.works/weekly-random/que-sabe-el-que-nosotros-no",
+      "permanent": true
+    },
+    {
+      "source": "/qu/",
+      "destination": "https://www.porto.works/weekly-random/que-sabe-el-que-nosotros-no",
+      "permanent": true
+    },
+    {
+      "source": "/guiandonos-por-estrellas-2",
+      "destination": "https://www.porto.works/weekly-random/la-serie-de-netflix-que-es-muy-poco-netflix",
+      "permanent": true
+    },
+    {
+      "source": "/guiandonos-por-estrellas-2/",
+      "destination": "https://www.porto.works/weekly-random/la-serie-de-netflix-que-es-muy-poco-netflix",
+      "permanent": true
+    },
+    {
+      "source": "/comer-por-los-ojos",
+      "destination": "https://www.porto.works/weekly-random/comer-por-los-ojos/",
+      "permanent": true
+    },
+    {
+      "source": "/comer-por-los-ojos/",
+      "destination": "https://www.porto.works/weekly-random/comer-por-los-ojos/",
+      "permanent": true
+    },
+    {
+      "source": "/15-anos-despues",
+      "destination": "https://www.porto.works/weekly-random/15-anos-despues/",
+      "permanent": true
+    },
+    {
+      "source": "/15-anos-despues/",
+      "destination": "https://www.porto.works/weekly-random/15-anos-despues/",
+      "permanent": true
+    },
+    {
+      "source": "/colapinto-le-habla-a-la-gente-que-no-sabe-de-autos",
+      "destination": "https://www.porto.works/weekly-random/colapinto-le-habla-a-la-gente-que-no-sabe-de-autos/",
+      "permanent": true
+    },
+    {
+      "source": "/colapinto-le-habla-a-la-gente-que-no-sabe-de-autos/",
+      "destination": "https://www.porto.works/weekly-random/colapinto-le-habla-a-la-gente-que-no-sabe-de-autos/",
+      "permanent": true
+    },
+    {
+      "source": "/tu-proxima-obsesion",
+      "destination": "https://www.porto.works/weekly-random/tu-proxima-obsesion/",
+      "permanent": true
+    },
+    {
+      "source": "/tu-proxima-obsesion/",
+      "destination": "https://www.porto.works/weekly-random/tu-proxima-obsesion/",
+      "permanent": true
+    },
+    {
+      "source": "/cafe-revolucion-o-cuento",
+      "destination": "https://www.porto.works/weekly-random/cafe-revolucion-o-cuento/",
+      "permanent": true
+    },
+    {
+      "source": "/cafe-revolucion-o-cuento/",
+      "destination": "https://www.porto.works/weekly-random/cafe-revolucion-o-cuento/",
+      "permanent": true
+    },
+    {
+      "source": "/cual-es-tu-langosta",
+      "destination": "https://www.porto.works/weekly-random/cual-es-tu-langosta/",
+      "permanent": true
+    },
+    {
+      "source": "/cual-es-tu-langosta/",
+      "destination": "https://www.porto.works/weekly-random/cual-es-tu-langosta/",
+      "permanent": true
+    },
+    {
+      "source": "/negocio-chico",
+      "destination": "https://www.porto.works/weekly-random/negocio-chico/",
+      "permanent": true
+    },
+    {
+      "source": "/negocio-chico/",
+      "destination": "https://www.porto.works/weekly-random/negocio-chico/",
+      "permanent": true
+    },
+    {
+      "source": "/ecuador-2006",
+      "destination": "https://www.porto.works/weekly-random/ecuador-2006/",
+      "permanent": true
+    },
+    {
+      "source": "/ecuador-2006/",
+      "destination": "https://www.porto.works/weekly-random/ecuador-2006/",
+      "permanent": true
+    },
+    {
+      "source": "/mi-mundo-no-es-tu-mundo",
+      "destination": "https://www.porto.works/weekly-random/mi-mundo-no-es-tu-mundo/",
+      "permanent": true
+    },
+    {
+      "source": "/mi-mundo-no-es-tu-mundo/",
+      "destination": "https://www.porto.works/weekly-random/mi-mundo-no-es-tu-mundo/",
+      "permanent": true
+    },
+    {
+      "source": "/pescador-o-cardiologo",
+      "destination": "https://www.porto.works/weekly-random/pescador-o-cardiologo/",
+      "permanent": true
+    },
+    {
+      "source": "/pescador-o-cardiologo/",
+      "destination": "https://www.porto.works/weekly-random/pescador-o-cardiologo/",
+      "permanent": true
+    },
+    {
+      "source": "/diedrich-knickerbocker",
+      "destination": "https://www.porto.works/weekly-random/diedrich-knickerbocker/",
+      "permanent": true
+    },
+    {
+      "source": "/diedrich-knickerbocker/",
+      "destination": "https://www.porto.works/weekly-random/diedrich-knickerbocker/",
+      "permanent": true
+    },
+    {
+      "source": "/hello-world",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/hello-world/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/category/:path*",
+      "destination": "https://www.porto.works/weekly-random/",
+      "permanent": true
+    },
+    {
+      "source": "/feed",
+      "destination": "https://www.porto.works/weekly-random/",
+      "permanent": true
+    },
+    {
+      "source": "/feed/",
+      "destination": "https://www.porto.works/weekly-random/",
+      "permanent": true
+    }
+  ]
+}

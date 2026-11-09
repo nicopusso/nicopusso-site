@@ -1,0 +1,531 @@
+---
+import { Image } from 'astro:assets';
+import meSubi from '../assets/weekly-random/me-subi-al-auto-de-un-extrano.jpg';
+import pescador from '../assets/weekly-random/pescador-o-cardiologo.png';
+import diedrich from '../assets/weekly-random/diedrich-knickerbocker.png';
+
+// Weekly Random lives on porto.works. These are the latest three notes;
+// update this list when a new one is published there.
+const WR = 'https://www.porto.works/weekly-random/';
+const SUBSCRIBE = 'https://mailchi.mp/aa5df2dc44f0/weekly-random-landing';
+
+const notas = [
+  {
+    slug: 'me-subi-al-auto-de-un-extrano',
+    title: 'Me subí al auto de un extraño',
+    excerpt:
+      'Son las nueve y pico de la mañana y llueve en Río de Janeiro. Una de esas lluvias molestas que no parecen gran cosa hasta que te das cuenta de que estás empapado.',
+    cover: meSubi,
+  },
+  {
+    slug: 'pescador-o-cardiologo',
+    title: 'Pescador o Cardiólogo',
+    excerpt:
+      'Hace unas semanas estuve en los Hamptons trabajando con una organización de polo y pasó lo que me pasa cuando me acerco lo suficiente a un mundo nuevo.',
+    cover: pescador,
+  },
+  {
+    slug: 'diedrich-knickerbocker',
+    title: 'Diedrich Knickerbocker',
+    excerpt:
+      'En octubre de 1809 en Nueva York, de repente empezaron a aparecer en todos los diarios de la ciudad avisos de personas buscando a un hombre.',
+    cover: diedrich,
+  },
+];
+
+const proyectos = [
+  { name: 'Porto Works', href: 'https://www.porto.works/' },
+  { name: 'Timewalls', href: 'https://timewalls.studio/' },
+  { name: 'Weekly Random', href: WR },
+];
+
+const title = 'Nico Pusso – Brand Strategist';
+const description =
+  'Consultor de branding con más de 15 años de experiencia en construcción, posicionamiento y comunicación de marca.';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={Astro.site} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={Astro.site} />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" />
+    <link rel="icon" href="/favicon-192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Playfair+Display:wght@400..900&family=Work+Sans:wght@600&display=swap"
+    />
+  </head>
+  <body id="top">
+    <header class="site-header">
+      <a href="/" class="logo" aria-label="Nico Pusso">
+        <img src="/logo.svg" alt="Nico Pusso" width="144" height="20" />
+      </a>
+      <a href={WR} class="header-link">Newsletter</a>
+    </header>
+
+    <main>
+      <p class="hero">
+        Soy consultor de branding con más de 15 años de experiencia acompañando procesos de construcción,
+        posicionamiento y comunicación de marca. En 2023, co-fundé Timewalls, una galería de fotos
+        centrada en storytelling y recientemente Porto Works, un brand hub centrado en estrategia y
+        branding donde colaboramos junto a otros estudios y profesionales.
+      </p>
+
+      <section class="section">
+        <h2 class="label">WHAT I DO</h2>
+        <ol class="proyectos">
+          {
+            proyectos.map((p, i) => (
+              <li>
+                <span class="num">{String(i + 1).padStart(2, '0')}</span>
+                <a href={p.href}>{p.name}</a>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section class="section">
+        <h2 class="label"><a href={WR}>Weekly Random - SUSCRIBITE</a></h2>
+        <div class="cards">
+          {
+            notas.map((n) => (
+              <a class="card" href={`${WR}${n.slug}/`}>
+                <Image src={n.cover} alt="" widths={[480, 960]} sizes="(max-width: 767px) 100vw, 33vw" />
+                <h3>{n.title}</h3>
+                <p>{n.excerpt}</p>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="contact">
+        <h2 class="label contact-label">OPEN FOR BUSINESS</h2>
+        <div class="contact-body">
+          <p class="contact-title">Nuevos proyectos? Escribime.</p>
+          <div class="contact-cols">
+            <div>
+              <h2 class="label">email</h2>
+              <a class="contact-big" href="mailto:nico@porto.works">nico@porto.works</a>
+            </div>
+            <div>
+              <h2 class="label">INSTAGRAM</h2>
+              <a class="contact-big" href="https://www.instagram.com/nicopusso/">@nicopusso</a>
+            </div>
+          </div>
+          <h2 class="label">sigamos en contacto directo</h2>
+          <p class="contact-sub">Recibí mi newsletter “Weekly Random”</p>
+          <a class="subscribe" href={SUBSCRIBE} target="_blank" rel="noopener">
+            <span class="subscribe-field">Email</span>
+            <span class="subscribe-button">Suscribirme</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>No rights reserved.</span>
+      <a href="#top">Back to top</a>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --fg: #1d1d1d;
+    --serif: 'Playfair Display', Georgia, serif;
+    --label: 'Montserrat', Helvetica, Arial, sans-serif;
+    --card-title: 'Work Sans', Helvetica, Arial, sans-serif;
+    --num: 'Times New Roman', Times, serif;
+    --pad: 29px;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: #fff;
+    color: var(--fg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  h2,
+  h3,
+  p,
+  ol {
+    margin: 0;
+  }
+</style>
+
+<style>
+  /* Header */
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 46px;
+    margin: 0 var(--pad);
+    padding: 0 10px;
+    border-bottom: 1px solid var(--fg);
+  }
+
+  .logo img {
+    width: 144px;
+  }
+
+  .header-link {
+    font-family: var(--serif);
+    font-size: 25px;
+    line-height: 25px;
+    letter-spacing: -1.3px;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 29px var(--pad) 0;
+    font-family: var(--serif);
+    font-weight: 200;
+    font-size: 70px;
+    line-height: 58px;
+    letter-spacing: -3px;
+    text-transform: uppercase;
+    max-width: calc(1313px + 2 * var(--pad));
+  }
+
+  /* Section labels */
+  .label {
+    font-family: var(--label);
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 10px;
+  }
+
+  .section {
+    margin-top: 256px;
+    padding: 0 var(--pad);
+  }
+
+  .section + .section {
+    margin-top: 150px;
+  }
+
+  /* What I do */
+  .proyectos {
+    list-style: none;
+    padding: 0;
+    margin-top: 17px;
+  }
+
+  .proyectos li {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--fg);
+    padding: 0 0 15px 49px;
+    margin-bottom: 23px;
+  }
+
+  .num {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    font-family: var(--num);
+    font-size: 31px;
+    line-height: 31px;
+    letter-spacing: -5px;
+  }
+
+  .proyectos a {
+    font-family: var(--serif);
+    font-size: 70px;
+    line-height: 65px;
+    letter-spacing: -5px;
+    text-transform: uppercase;
+    transition: opacity 0.25s ease;
+  }
+
+  .proyectos a:hover {
+    opacity: 0.5;
+  }
+
+  /* Weekly Random cards */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin: 19px -14px 0;
+  }
+
+  .card img {
+    width: 100%;
+    aspect-ratio: 1270 / 1496;
+    object-fit: cover;
+  }
+
+  .card h3 {
+    margin: 19px 14px 10px;
+    font-family: var(--card-title);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -2.2px;
+    color: #000;
+  }
+
+  .card p {
+    margin: 0 14px;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #000;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card:hover h3 {
+    opacity: 0.6;
+  }
+
+  /* Contact */
+  .contact {
+    display: grid;
+    grid-template-columns: 400px minmax(0, 1fr);
+    margin-top: 170px;
+    padding: 0 var(--pad) 0 calc(var(--pad) + 10px);
+  }
+
+  .contact-label {
+    padding-top: 10px;
+  }
+
+  .contact-title {
+    font-family: var(--serif);
+    font-size: 50px;
+    line-height: 43px;
+    letter-spacing: -5px;
+    text-transform: uppercase;
+    max-width: 814px;
+  }
+
+  .contact-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 49px 0 44px;
+    max-width: 958px;
+  }
+
+  .contact-big {
+    display: inline-block;
+    font-family: var(--serif);
+    font-size: 35px;
+    line-height: 35px;
+    letter-spacing: -3px;
+  }
+
+  .contact-sub {
+    margin-top: 4px;
+    font-family: var(--serif);
+    font-size: 35px;
+    line-height: 35px;
+    letter-spacing: -3px;
+    text-transform: uppercase;
+    max-width: 814px;
+  }
+
+  .subscribe {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 17px;
+    max-width: 586px;
+  }
+
+  .subscribe-field {
+    flex: 1;
+    padding: 10px 14px;
+    border-bottom: 1px solid #69727d;
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 19px;
+    letter-spacing: -0.9px;
+    color: #69727d;
+  }
+
+  .subscribe-button {
+    padding: 10px 0;
+    font-family: var(--num);
+    font-size: 24px;
+    line-height: 24px;
+    font-weight: 500;
+    letter-spacing: -1.3px;
+    color: #000;
+  }
+
+  .subscribe:hover .subscribe-button {
+    opacity: 0.6;
+  }
+
+  /* Footer */
+  .site-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 46px;
+    margin: 120px var(--pad) 0;
+    padding: 0 10px;
+    border-top: 1px solid #444;
+    font-family: var(--serif);
+    font-size: 25px;
+    line-height: 25px;
+    letter-spacing: -1.3px;
+  }
+
+  /* Tablet */
+  @media (max-width: 1024px) {
+    .hero {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .section {
+      padding: 0 20px;
+    }
+
+    .num {
+      display: none;
+    }
+
+    .proyectos li {
+      padding-left: 10px;
+    }
+
+    .contact {
+      grid-template-columns: 290px minmax(0, 1fr);
+    }
+  }
+
+  /* Mobile */
+  @media (max-width: 767px) {
+    .site-header {
+      margin: 0 8px;
+      padding: 0 12px;
+      height: 64px;
+    }
+
+    .logo img {
+      width: 158px;
+    }
+
+    .header-link {
+      font-size: 20px;
+    }
+
+    .hero {
+      padding: 14px 8px 0;
+      font-size: 40px;
+      line-height: 40px;
+    }
+
+    .section {
+      margin-top: 128px;
+      padding: 0 8px;
+    }
+
+    .proyectos li {
+      margin-bottom: 37px;
+    }
+
+    .proyectos a {
+      font-size: 45px;
+    }
+
+    .cards {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      margin: 24px -3px 0;
+    }
+
+    .card h3,
+    .card p {
+      margin-left: 3px;
+      margin-right: 3px;
+    }
+
+    .contact {
+      display: block;
+      margin-top: 128px;
+      padding: 0 8px;
+    }
+
+    .contact-label {
+      padding: 0 0 14px;
+    }
+
+    .contact-title {
+      font-size: 25px;
+      line-height: 25px;
+      letter-spacing: -2.6px;
+    }
+
+    .contact-cols {
+      display: block;
+      margin: 35px 0 45px;
+    }
+
+    .contact-cols > div + div {
+      margin-top: 35px;
+    }
+
+    .contact-big {
+      font-size: 25px;
+      line-height: 25px;
+      letter-spacing: -1.1px;
+    }
+
+    .contact-sub {
+      font-size: 25px;
+      line-height: 25px;
+      letter-spacing: -2.6px;
+    }
+
+    .site-footer {
+      margin: 60px 10px 0;
+      padding: 0;
+      font-size: 20px;
+    }
+  }
+</style>
