@@ -499,16 +499,27 @@ const description =
     opacity: 0.6;
   }
 
-  /* Contact */
+  /* Contact. Same 3-column grid as the Weekly Random cards (same gap and
+     the same 14px inner margin), so the label lines up with the text of
+     the first note, the block with the second and Instagram with the
+     third. */
   .contact {
+    --gutter: 14px;
     display: grid;
-    grid-template-columns: 400px minmax(0, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 6px;
     margin-top: 170px;
-    padding: 0 var(--pad) 0 calc(var(--pad) + 10px);
+    padding: 0 calc(var(--pad) - var(--gutter));
   }
 
   .contact-label {
-    padding-top: 10px;
+    grid-column: 1;
+    padding: 10px var(--gutter) 0;
+  }
+
+  .contact-body {
+    grid-column: 2 / 4;
+    padding: 0 var(--gutter);
   }
 
   .contact-title {
@@ -520,11 +531,13 @@ const description =
     max-width: 814px;
   }
 
+  /* With the body's 14px side padding, a 34px gap puts the second column
+     exactly on the third card's text. */
   .contact-cols {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 34px;
     margin: 49px 0 44px;
-    max-width: 958px;
   }
 
   /* Email and Instagram: an underline draws in from the left on hover
@@ -688,7 +701,14 @@ const description =
     }
 
     .contact {
-      grid-template-columns: 290px minmax(0, 1fr);
+      padding: 0 calc(20px - var(--gutter));
+    }
+
+    /* Narrower columns: scale email and Instagram so they fit theirs. */
+    .contact-big {
+      font-size: clamp(26px, 3.4vw, 35px);
+      line-height: 1;
+      letter-spacing: -0.08em;
     }
   }
 
@@ -757,6 +777,10 @@ const description =
 
     .contact-label {
       padding: 0 0 14px;
+    }
+
+    .contact-body {
+      padding: 0;
     }
 
     .contact-title {
